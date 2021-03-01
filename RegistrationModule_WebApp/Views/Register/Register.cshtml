@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+    <h2>HTML Forms</h2>
+
+    <form action="/action_page.php">
+
+        <label for="fname">UserName:</label><br>
+        <input type="text" id="username" name="username" value=""><br>
+        <label for="lname">Email:</label><br>
+        <input type="email" id="email" name="email" value=""><br><br>
+        <label for="lname">Password:</label><br>
+        <input type="password" id="password" name="password" value=""><br><br>
+
+
+        <input type="submit" id="button" value="SignIn">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        })
+       
+        $("#button").click(function (e) {
+            e.preventDefault()
+            var username = $('#username').val()
+            var email = $('#email').val()
+            var password = $('#password').val()
+
+
+            var data = {
+                username: username,
+                email: email,
+                password: password
+            }
+            console.log(data)
+            $.ajax({
+                type: 'POST',
+                url: "/Register/RegisterEmp",
+                data: data,
+                success: function () {
+                    alert("Employee Register Successfully")
+                },
+                error: (function (err) {
+                    console.log(err)
+                    alert('Something Went to wrong')
+                })
+              })
+             })
+    </script>
+
+
+
+
+</body>
+</html>

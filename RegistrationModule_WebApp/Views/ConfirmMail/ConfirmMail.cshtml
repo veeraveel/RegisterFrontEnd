@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+    <h2>HTML Forms</h2>
+
+    <form action="/action_page.php">
+
+        <label for="fname">Email:</label><br>
+        <input type="email" id="email" name="email" value=""><br>
+       
+
+
+
+        <input type="submit" id="button" value="SignIn">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        })
+
+        $("#button").click(function (e) {
+            e.preventDefault()
+            var email = $('#email').val()
+           
+
+            var data = {
+                email: email
+                
+            }
+            console.log(data)
+            $.ajax({
+                type: 'POST',
+                url: "/Confirm/ConfirmEmail",
+                data: data,
+                success: function () {
+                    alert("Employee Login Successfully")
+                },
+                error: (function (err) {
+                    console.log(err)
+                    alert('Something Went to wrong')
+                })
+              })
+             })
+    </script>
+
+
+
+
+</body>
+</html>
