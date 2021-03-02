@@ -4,7 +4,7 @@
 
     <h2>html forms</h2>
 
-    <form action="/action_page.php">
+    <form action="">
 
         <label for="fname">email:</label><br>
         <input type="email" id="email" name="email" value=""><br>
@@ -21,7 +21,7 @@
         })
 
         $("#button").click(function (e) {
-            e.preventdefault()
+            e.preventDefault()
             var email = $('#email').val()
            
 
@@ -29,13 +29,13 @@
                 email: email
                 
             }
-            console.log(data)
+           
             $.ajax({
                 type: 'post',
-                url: "/ForgetConfirmMail/ResetPassword",
+                url: "/Forget/ForgetPassword",
                 data: data,
                 success: function () {
-                    alert("employee login successfully")
+                    alert("employee Confirm successfully")
                 },
                 error: (function (err) {
                     console.log(err)

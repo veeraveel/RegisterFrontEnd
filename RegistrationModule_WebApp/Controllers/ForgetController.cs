@@ -20,16 +20,16 @@ namespace RegistrationModule_WebApp.Controllers
             _configuration = configuration;
             _mailService = service;
         }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult ForgetConfirmMail()
+        public IActionResult Forget()
         {
             return View();
         }
-
 
         public async Task<IActionResult> ForgetPassword(string email)
         {
@@ -44,8 +44,6 @@ namespace RegistrationModule_WebApp.Controllers
             return BadRequest(result); // 400
         }
 
-      
-
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -53,13 +51,26 @@ namespace RegistrationModule_WebApp.Controllers
                 var result = await _userService.ResetPasswordAsync(model);
 
                 if (result.IsSuccess)
+                {
                     return Ok(result);
+                    
+                }
 
                 return BadRequest(result);
             }
 
             return BadRequest("Some properties are not valid");
         }
+        public IActionResult ConfirmEmailTest(string email)
+        {
+            return View();
+        }
+
+
+
+
+
+
 
     }
 }

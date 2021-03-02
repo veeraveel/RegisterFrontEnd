@@ -4,7 +4,7 @@
 
     <h2>HTML Forms</h2>
 
-    <form action="/action_page.php">
+    <form action="">
 
         <label for="fname">UserName:</label><br>
         <input type="text" id="username" name="username" value=""><br>
@@ -34,7 +34,7 @@
                 email: email,
                 password: password
             }
-            console.log(data)
+           
             $.ajax({
                 type: 'POST',
                 url: "/Register/RegisterEmp",

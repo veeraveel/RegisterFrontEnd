@@ -4,10 +4,11 @@
 
     <h2>HTML Forms</h2>
 
-    <form action="/action_page.php">
+    <form action="">
 
-        <label for="fname">Email:</label><br>
-        <input type="email" id="email" name="email" value=""><br>
+       
+        <label for="lname">Email:</label><br>
+        <input type="email" id="email" name="email" value=""><br><br>
         <label for="lname">Password:</label><br>
         <input type="password" id="password" name="password" value=""><br><br>
 
@@ -15,10 +16,15 @@
         <input type="submit" id="button" value="SignIn">
     </form>
 
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
         })
+
+
 
         $("#button").click(function (e) {
             e.preventDefault()
@@ -30,7 +36,7 @@
                 email: email,
                 password: password
             }
-            console.log(data)
+           
             $.ajax({
                 type: 'POST',
                 url: "/Login/LoginEmp",
@@ -42,8 +48,8 @@
                     console.log(err)
                     alert('Something Went to wrong')
                 })
-              })
-             })
+            })
+        })
     </script>
 
 

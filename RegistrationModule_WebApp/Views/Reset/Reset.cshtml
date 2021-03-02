@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html>
+<body>
+
+    <h2>html forms</h2>
+
+    <form action="">
+
+        <label for="fname">NewPassword:</label><br>
+        <input type="password" id="password" name="password" value=""><br>
+        <label for="fname">ConfirmPassword:</label><br>
+        <input type="password" id="newpassword" name="password" value=""><br>
+
+
+
+
+
+        <input type="submit" id="button" value="submit">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        })
+
+        $("#button").click(function (e) {
+            e.preventDefault()
+            var password = $('#password').val(),
+            var newpassword = $('#newpassword').val()
+
+
+            var data = {
+                password: password,
+                newpassword: newpassword
+
+            }
+            console.log(data)
+            $.ajax({
+                type: 'post',
+                url: "/Reset/ResetPassword",
+                data: data,
+                success: function () {
+                    alert("employee Confirm successfully")
+                },
+                error: (function (err) {
+                    console.log(err)
+                    alert('something went to wrong')
+                })
+              })
+             })
+    </script>
+
+
+
+
+</body>
+</html>
