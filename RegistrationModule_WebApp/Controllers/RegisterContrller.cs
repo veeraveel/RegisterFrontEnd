@@ -1,10 +1,12 @@
 ﻿using API.Register.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using RegistrationModule_WebApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RegistrationModule_WebApp.Controllers
@@ -45,6 +47,29 @@ namespace RegistrationModule_WebApp.Controllers
 
             return BadRequest("Some properties are not valid"); // Status code: 400
         }
+
+        
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+                return NotFound();
+
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+
+            if (result.IsSuccess)
+            {
+                return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
+            }
+
+            return BadRequest(result);
+        }
+
+        public IActionResult ConfirmEmailTest(string userId, string token)
+        {
+            return View();
+        }
+
+
 
     }
 }

@@ -60,7 +60,9 @@ namespace RegistrationModule_WebApp
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddControllersWithViews();
-                     
+           
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

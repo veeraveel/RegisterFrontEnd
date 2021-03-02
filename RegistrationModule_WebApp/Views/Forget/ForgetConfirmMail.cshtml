@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html>
 <body>
 
-    <h2>HTML Forms</h2>
+    <h2>html forms</h2>
 
     <form action="/action_page.php">
 
-        <label for="fname">Email:</label><br>
+        <label for="fname">email:</label><br>
         <input type="email" id="email" name="email" value=""><br>
        
 
 
 
-        <input type="submit" id="button" value="SignIn">
+        <input type="submit" id="button" value="signin">
     </form>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -21,7 +21,7 @@
         })
 
         $("#button").click(function (e) {
-            e.preventDefault()
+            e.preventdefault()
             var email = $('#email').val()
            
 
@@ -31,15 +31,15 @@
             }
             console.log(data)
             $.ajax({
-                type: 'POST',
-                url: "/Confirm/ConfirmEmail",
+                type: 'post',
+                url: "/ForgetConfirmMail/ResetPassword",
                 data: data,
                 success: function () {
-                    alert("Employee Login Successfully")
+                    alert("employee login successfully")
                 },
                 error: (function (err) {
                     console.log(err)
-                    alert('Something Went to wrong')
+                    alert('something went to wrong')
                 })
               })
              })

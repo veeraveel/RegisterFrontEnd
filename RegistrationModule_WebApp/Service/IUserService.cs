@@ -20,8 +20,8 @@ namespace RegistrationModule_WebApp.Service
 
         Task<UserManagerResponse> ConfirmEmailAsync(string userId, string token);
 
-        //Task<UserManagerResponse> ForgetPasswordAsync(string email);
-        //Task<UserManagerResponse> ResetPasswordAsync(ResetPasswordViewModel model);
+        Task<UserManagerResponse> ForgetPasswordAsync(string email);
+        Task<UserManagerResponse> ResetPasswordAsync(ResetPasswordViewModel model);
 
     }
     public class UserService : IUserService
@@ -65,7 +65,7 @@ namespace RegistrationModule_WebApp.Service
                 var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
                 var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-                string url = $"{_configuration["AppUrl"]}/api/auth/confirmemail?userid={identityUser.Id}&token={validEmailToken}";
+                string url = $"{_configuration["AppUrl"]}/Register/confirmemail?userid={identityUser.Id}&token={validEmailToken}";
 
                 await _mailService.SendEmailAsync(identityUser.Email, "Confirm your email", $"<h1>Welcome to Auth Demo</h1>" +
                     $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
@@ -86,52 +86,52 @@ namespace RegistrationModule_WebApp.Service
             };
         }
 
-            public async Task<UserManagerResponse> LoginUserAsync(LoginViewModel model)
+        public async Task<UserManagerResponse> LoginUserAsync(LoginViewModel model)
+        {
+            var user = await _userManger.FindByEmailAsync(model.Email);
+
+            if (user == null)
             {
-                var user = await _userManger.FindByEmailAsync(model.Email);
-
-                if (user == null)
+                return new UserManagerResponse
                 {
-                    return new UserManagerResponse
-                    {
-                        Message = "There is no user with that Email address",
-                        IsSuccess = false,
-                    };
-                }
+                    Message = "There is no user with that Email address",
+                    IsSuccess = false,
+                };
+            }
 
-                var result = await _userManger.CheckPasswordAsync(user, model.Password);
+            var result = await _userManger.CheckPasswordAsync(user, model.Password);
 
-                if (!result)
-                    return new UserManagerResponse
-                    {
-                        Message = "Invalid password",
-                        IsSuccess = false,
-                    };
-
-                var claims = new[]
+            if (!result)
+                return new UserManagerResponse
                 {
+                    Message = "Invalid password",
+                    IsSuccess = false,
+                };
+
+            var claims = new[]
+            {
                 new Claim("Email", model.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
 
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["AuthSettings:Issuer"],
-                    audience: _configuration["AuthSettings:Audience"],
-                    claims: claims,
-                    expires: DateTime.Now.AddDays(30),
-                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+            var token = new JwtSecurityToken(
+                issuer: _configuration["AuthSettings:Issuer"],
+                audience: _configuration["AuthSettings:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddDays(30),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
 
-                string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+            string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
 
-                return new UserManagerResponse
-                {
-                    Message = tokenAsString,
-                    IsSuccess = true,
-                    ExpireDate = token.ValidTo
-                };
-            }
+            return new UserManagerResponse
+            {
+                Message = tokenAsString,
+                IsSuccess = true,
+                ExpireDate = token.ValidTo
+            };
+        }
 
         public async Task<UserManagerResponse> ConfirmEmailAsync(string userId, string token)
         {
@@ -163,69 +163,68 @@ namespace RegistrationModule_WebApp.Service
             };
         }
 
-        //public async Task<UserManagerResponse> ForgetPasswordAsync(string email)
-        //{
-        //    var user = await _userManger.FindByEmailAsync(email);
-        //    if (user == null)
-        //        return new UserManagerResponse
-        //        {
-        //            IsSuccess = false,
-        //            Message = "No user associated with email",
-        //        };
+        public async Task<UserManagerResponse> ForgetPasswordAsync(string email)
+        {
+            var user = await _userManger.FindByEmailAsync(email);
+            if (user == null)
+                return new UserManagerResponse
+                {
+                    IsSuccess = false,
+                    Message = "No user associated with email",
+                };
 
-        //    var token = await _userManger.GeneratePasswordResetTokenAsync(user);
-        //    var encodedToken = Encoding.UTF8.GetBytes(token);
-        //    var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+            var token = await _userManger.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-        //    string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
+            string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
 
-        //    await _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
-        //        $"<p>To reset your password <a href='{url}'>Click here</a></p>");
+            await _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
+                $"<p>To reset your password <a href='{url}'>Click here</a></p>");
 
-        //    return new UserManagerResponse
-        //    {
-        //        IsSuccess = true,
-        //        Message = "Reset password URL has been sent to the email successfully!"
-        //    };
-        //}
+            return new UserManagerResponse
+            {
+                IsSuccess = true,
+                Message = "Reset password URL has been sent to the email successfully!"
+            };
+        }
 
-        //public async Task<UserManagerResponse> ResetPasswordAsync(ResetPasswordViewModel model)
-        //{
-        //    var user = await _userManger.FindByEmailAsync(model.Email);
-        //    if (user == null)
-        //        return new UserManagerResponse
-        //        {
-        //            IsSuccess = false,
-        //            Message = "No user associated with email",
-        //        };
+        public async Task<UserManagerResponse> ResetPasswordAsync(ResetPasswordViewModel model)
+        {
+            var user = await _userManger.FindByEmailAsync(model.Email);
+            if (user == null)
+                return new UserManagerResponse
+                {
+                    IsSuccess = false,
+                    Message = "No user associated with email",
+                };
 
-        //    if (model.NewPassword != model.ConfirmPassword)
-        //        return new UserManagerResponse
-        //        {
-        //            IsSuccess = false,
-        //            Message = "Password doesn't match its confirmation",
-        //        };
+            if (model.NewPassword != model.ConfirmPassword)
+                return new UserManagerResponse
+                {
+                    IsSuccess = false,
+                    Message = "Password doesn't match its confirmation",
+                };
 
-        //    var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
-        //    string normalToken = Encoding.UTF8.GetString(decodedToken);
+            var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
 
-        //    var result = await _userManger.ResetPasswordAsync(user, normalToken, model.NewPassword);
+            var result = await _userManger.ResetPasswordAsync(user, normalToken, model.NewPassword);
 
-        //    if (result.Succeeded)
-        //        return new UserManagerResponse
-        //        {
-        //            Message = "Password has been reset successfully!",
-        //            IsSuccess = true,
-        //        };
+            if (result.Succeeded)
+                return new UserManagerResponse
+                {
+                    Message = "Password has been reset successfully!",
+                    IsSuccess = true,
+                };
 
-        //    return new UserManagerResponse
-        //    {
-        //        Message = "Something went wrong",
-        //        IsSuccess = false,
-        //        Errors = result.Errors.Select(e => e.Description),
-        //    };
-        
+            return new UserManagerResponse
+            {
+                Message = "Something went wrong",
+                IsSuccess = false,
+                Errors = result.Errors.Select(e => e.Description),
+            };
+        }
     }
-
 }
 
