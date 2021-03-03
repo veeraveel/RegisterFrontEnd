@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using RegistrationModule_WebApp.Models;
 using RegistrationModule_WebApp.Service;
 using System;
 using System.Collections.Generic;
@@ -44,28 +45,7 @@ namespace RegistrationModule_WebApp.Controllers
             return BadRequest(result); // 400
         }
 
-        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _userService.ResetPasswordAsync(model);
-
-                if (result.IsSuccess)
-                {
-                    return Ok(result);
-                    
-                }
-
-                return BadRequest(result);
-            }
-
-            return BadRequest("Some properties are not valid");
-        }
-        public IActionResult ConfirmEmailTest(string email)
-        {
-            return View();
-        }
-
+        
 
 
 

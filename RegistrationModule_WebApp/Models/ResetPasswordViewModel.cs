@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RegistrationModule_WebApp.Service
+namespace RegistrationModule_WebApp.Models
 {
     public class ResetPasswordViewModel
     {

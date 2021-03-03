@@ -59,8 +59,7 @@ namespace RegistrationModule_WebApp
 
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IMailService, SendGridMailService>();
-            services.AddControllersWithViews();
-           
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
         }

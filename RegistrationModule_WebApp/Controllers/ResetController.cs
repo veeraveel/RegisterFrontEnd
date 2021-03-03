@@ -1,68 +1,53 @@
-﻿using API.Register.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using RegistrationModule_WebApp.Models;
 using RegistrationModule_WebApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RegistrationModule_WebApp.Controllers
 {
-    public class RegisterController : Controller
+    public class ResetController : Controller
     {
+
         private IUserService _userService;
         private IConfiguration _configuration;
         private IMailService _mailService;
-        public RegisterController(IUserService userService, IConfiguration configuration, IMailService service)
+        public ResetController(IUserService userService, IConfiguration configuration, IMailService service)
         {
             _userService = userService;
             _configuration = configuration;
             _mailService = service;
         }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Register()
+        public IActionResult Reset()
         {
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> RegisterEmp([FromForm] RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var result = await _userService.RegisterUserAsync(model);
-
-        //        if (result.IsSuccess)
-        //            return Ok(result); // Status Code: 200 
-
-        //        return BadRequest(result);
-        //    }
-
-        //    return BadRequest("Some properties are not valid"); // Status code: 400
-        //}
-
-
-        [HttpPost]
-        public async Task<IActionResult> RegisterEmployee(RegisterViewModel model)
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _userService.RegisterUserAsync(model);
+                var result = await _userService.ResetPasswordAsync(model);
 
                 if (result.IsSuccess)
-                    return Ok(result); // Status Code: 200 
+                {
+                    return Ok(result);
+
+                }
 
                 return BadRequest(result);
             }
 
-            return BadRequest("Some properties are not valid"); // Status code: 400
+            return BadRequest("Some properties are not valid");
         }
 
 
@@ -75,8 +60,7 @@ namespace RegistrationModule_WebApp.Controllers
 
             if (result.IsSuccess)
             {
-                //return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
-                return RedirectToAction("Reset", "Reset");
+                return Redirect($"{_configuration["AppUrl"]}/Reset.html");
             }
 
             return BadRequest(result);
@@ -86,8 +70,5 @@ namespace RegistrationModule_WebApp.Controllers
         {
             return View();
         }
-
-
-
     }
 }

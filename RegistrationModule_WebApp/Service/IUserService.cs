@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using RegistrationModule_WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -39,16 +40,16 @@ namespace RegistrationModule_WebApp.Service
         }
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterViewModel model)
         {
-            if (model == null)
+            if (model.Email == null)
                 throw new NullReferenceException("reigster model is null");
 
-            model.ConfirmPassword = model.Password;
-            if (model.Password != model.ConfirmPassword)
-                return new UserManagerResponse
-                {
-                    Message = "confirm password doesn't match the password",
-                    IsSuccess = false,
-                };
+            //model.ConfirmPassword = model.Password;
+            //if (model.Password != model.ConfirmPassword)
+            //    return new UserManagerResponse
+            //    {
+            //        Message = "confirm password doesn't match the password",
+            //        IsSuccess = false,
+            //    };
 
             var identityUser = new IdentityUser
             {
@@ -56,7 +57,7 @@ namespace RegistrationModule_WebApp.Service
                 UserName = model.Email,
             };
 
-            var result = await _userManger.CreateAsync(identityUser, model.Password);
+            var result = await _userManger.CreateAsync(identityUser);
 
             if (result.Succeeded)
             {
@@ -100,6 +101,7 @@ namespace RegistrationModule_WebApp.Service
             }
 
             var result = await _userManger.CheckPasswordAsync(user, model.Password);
+          
 
             if (!result)
                 return new UserManagerResponse

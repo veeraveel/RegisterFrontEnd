@@ -15,43 +15,38 @@
 
 
 
-        <input type="submit" id="button" value="submit">
+        <button type="submit" id="button">Submit</button>
     </form>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            $("#button").click(function (e) {
+                var password = $('#password').val()
+                var confirmpassword = $('#newpassword').val()
+
+
+                var data = {
+                    newpassword: password,
+                    confirmpassword: confirmpassword
+                }
+                console.log(data)
+                $.ajax({
+                    type: 'POST',
+                    url: "/Reset/ResetPassword",
+                    data: data,
+                    success: function () {
+                        alert("employee Password Updated")
+                    },
+                    error: (function (err) {
+                        console.log(err)
+                        alert('something went to wrong')
+                    })
+                })
+            })
         })
 
-        $("#button").click(function (e) {
-            e.preventDefault()
-            var password = $('#password').val(),
-            var newpassword = $('#newpassword').val()
-
-
-            var data = {
-                password: password,
-                newpassword: newpassword
-
-            }
-            console.log(data)
-            $.ajax({
-                type: 'post',
-                url: "/Reset/ResetPassword",
-                data: data,
-                success: function () {
-                    alert("employee Confirm successfully")
-                },
-                error: (function (err) {
-                    console.log(err)
-                    alert('something went to wrong')
-                })
-              })
-             })
+        
     </script>
-
-
-
-
 </body>
 </html>
