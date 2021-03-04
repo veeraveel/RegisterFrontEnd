@@ -32,25 +32,8 @@ namespace RegistrationModule_WebApp.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> RegisterEmp([FromForm] RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var result = await _userService.RegisterUserAsync(model);
-
-        //        if (result.IsSuccess)
-        //            return Ok(result); // Status Code: 200 
-
-        //        return BadRequest(result);
-        //    }
-
-        //    return BadRequest("Some properties are not valid"); // Status code: 400
-        //}
-
-
         [HttpPost]
-        public async Task<IActionResult> RegisterEmployee(RegisterViewModel model)
+        public async Task<IActionResult> RegisterEmp([FromForm] RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +49,9 @@ namespace RegistrationModule_WebApp.Controllers
         }
 
 
+
+
+
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
@@ -75,8 +61,8 @@ namespace RegistrationModule_WebApp.Controllers
 
             if (result.IsSuccess)
             {
-                //return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
-                return RedirectToAction("Reset", "Reset");
+                return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
+                //return RedirectToAction("Reset", "Reset");
             }
 
             return BadRequest(result);

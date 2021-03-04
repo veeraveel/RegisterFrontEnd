@@ -6,12 +6,12 @@
 
     <form action="">
 
-       
+
         <label for="lname">Email:</label><br>
         <input type="email" id="email" name="email" value=""><br><br>
         <label for="lname">Password:</label><br>
         <input type="password" id="password" name="password" value=""><br><br>
-
+        <div id="msg">Invalid Email or Password </div>
 
         <input type="submit" id="button" value="SignIn">
     </form>
@@ -24,7 +24,7 @@
         $(document).ready(function () {
         })
 
-
+        $("#msg").hide()
 
         $("#button").click(function (e) {
             e.preventDefault()
@@ -45,8 +45,7 @@
                     alert("Employee Login Successfully")
                 },
                 error: (function (err) {
-                    console.log(err)
-                    alert('Something Went to wrong')
+                    setTimeout(function () { $("#msg").show(); }, 3000);
                 })
             })
         })

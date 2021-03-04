@@ -40,16 +40,16 @@ namespace RegistrationModule_WebApp.Service
         }
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterViewModel model)
         {
-            if (model.Email == null)
+            if (model == null)
                 throw new NullReferenceException("reigster model is null");
 
-            //model.ConfirmPassword = model.Password;
-            //if (model.Password != model.ConfirmPassword)
-            //    return new UserManagerResponse
-            //    {
-            //        Message = "confirm password doesn't match the password",
-            //        IsSuccess = false,
-            //    };
+
+            if (model.Password != model.ConfirmPassword)
+                return new UserManagerResponse
+                {
+                    Message = "confirm password doesn't match the password",
+                    IsSuccess = false,
+                };
 
             var identityUser = new IdentityUser
             {
@@ -57,7 +57,7 @@ namespace RegistrationModule_WebApp.Service
                 UserName = model.Email,
             };
 
-            var result = await _userManger.CreateAsync(identityUser);
+            var result = await _userManger.CreateAsync(identityUser, model.Password);
 
             if (result.Succeeded)
             {
@@ -101,7 +101,6 @@ namespace RegistrationModule_WebApp.Service
             }
 
             var result = await _userManger.CheckPasswordAsync(user, model.Password);
-          
 
             if (!result)
                 return new UserManagerResponse
@@ -179,7 +178,7 @@ namespace RegistrationModule_WebApp.Service
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"{_configuration["AppUrl"]}/Forget/ResetPassword?email={email}&token={validToken}";
+            string url = $"{_configuration["AppUrl"]}/Forget/ConfirmEmail?email={email}&token={validToken}";
 
             await _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
                 $"<p>To reset your password <a href='{url}'>Click here</a></p>");
@@ -227,6 +226,7 @@ namespace RegistrationModule_WebApp.Service
                 Errors = result.Errors.Select(e => e.Description),
             };
         }
+
     }
 }
 

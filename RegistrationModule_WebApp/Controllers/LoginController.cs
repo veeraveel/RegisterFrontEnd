@@ -31,7 +31,8 @@ namespace RegistrationModule_WebApp.Controllers
             return View();
         }
 
-        // /api/auth/login
+      
+
         [HttpPost]
         public async Task<IActionResult> LoginEmp([FromForm] LoginViewModel model)
         {
@@ -51,5 +52,7 @@ namespace RegistrationModule_WebApp.Controllers
 
             return BadRequest("Some properties are not valid");
         }
+
+
     }
 }
