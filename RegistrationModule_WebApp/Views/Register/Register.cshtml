@@ -15,7 +15,7 @@
         <input type="password" id="confirmpassword" name="password" value=""><br><br>
         <div id="msg">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters </div>
 
-        <input type="submit" id="button" value="SignIn">
+        <input type="submit" id="button" value="SignUp">
     </form>
 
 
@@ -31,7 +31,7 @@
             var email = $('#email').val()
             var password = $('#password').val()
             var confirmpassword = $('#confirmpassword').val()
-            
+
 
             var data = {
                 email: email,
@@ -45,6 +45,7 @@
                 data: data,
                 success: function () {
                     alert("Employee Login Successfully")
+                    window.location.href = '@Url.Action("Login","Login")'
                 },
                 error: (function (err) {
                     setTimeout(function () { $("#msg").show(); }, 3000);

@@ -54,6 +54,7 @@ namespace RegistrationModule_WebApp
                     RequireExpirationTime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:Key"])),
                     ValidateIssuerSigningKey = true
+                    
                 };
             });
 

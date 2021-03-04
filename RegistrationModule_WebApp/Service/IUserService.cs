@@ -91,6 +91,15 @@ namespace RegistrationModule_WebApp.Service
         {
             var user = await _userManger.FindByEmailAsync(model.Email);
 
+            if(!await _userManger.IsEmailConfirmedAsync((await _userManger.FindByEmailAsync(model.Email))))
+            {
+                return new UserManagerResponse
+                {
+                    Message = "There is no user with that Email address",
+                    IsSuccess = false,
+                };
+            }
+
             if (user == null)
             {
                 return new UserManagerResponse
