@@ -66,7 +66,7 @@ namespace RegistrationModule_WebApp.Controllers
 
 
 
-        [HttpPost)]
+        [HttpPost]
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
