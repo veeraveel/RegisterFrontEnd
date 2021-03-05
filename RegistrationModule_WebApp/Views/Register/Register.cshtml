@@ -21,7 +21,7 @@
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src=""></script>
     <script>
         $(document).ready(function () {
         })
@@ -354,11 +354,11 @@
                 url: "/Register/RegisterEmp",
                 data: data,
                 success: function () {
-                    alert("Employee Register successfully please chcke you Email to verify your Registration ")
+                    alert("Your Account created successfully please chcke you Email to verify your Registration ")
                     window.location.href = '@Url.Action("Login","Login")'
                 },
                 error: (function (err) {
-                    
+                    alert("Password doesn't match its confirmation")
                 })
             })
         })

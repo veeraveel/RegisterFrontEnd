@@ -16,21 +16,21 @@ namespace RegistrationModule_WebApp.Controllers
         private IUserService _userService;
         private IConfiguration _configuration;
         private IMailService _mailService;
-        public RegisterController(IUserService userService, IConfiguration configuration, IMailService service)
-        {
+         public RegisterController(IUserService userService, IConfiguration configuration, IMailService service)
+         {
             _userService = userService;
             _configuration = configuration;
             _mailService = service;
-        }
-        public IActionResult Index()
-        {
+         }
+         public IActionResult Index()
+         {
             return View();
-        }
+         }
 
-        public IActionResult Register()
-        {
+         public IActionResult Register()
+         {
             return View();
-        }
+         }
 
         [HttpPost]
         public async Task<IActionResult> RegisterEmp([FromForm] RegisterViewModel model)

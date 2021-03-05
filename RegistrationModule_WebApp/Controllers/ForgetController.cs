@@ -34,7 +34,7 @@ namespace RegistrationModule_WebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ForgetPassword(string email)
+        public async Task<IActionResult>ForgetPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
                 return NotFound();

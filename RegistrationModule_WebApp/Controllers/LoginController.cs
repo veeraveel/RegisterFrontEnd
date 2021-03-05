@@ -38,6 +38,7 @@ namespace RegistrationModule_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var result = await _userService.LoginUserAsync(model);
 
                 if (result.IsSuccess)

@@ -22,7 +22,7 @@
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src=""></script>
     <script>
         $(document).ready(function () {
         })
@@ -321,7 +321,11 @@
                 success: function () {
                     alert("Employee Login Successfully")
                 },
+
                 error: (function (err) {
+                    console.log(err,"yhgyhuhj")
+                  alert ("Invalid Email or Password")
+                    
                   
                 })
             })
