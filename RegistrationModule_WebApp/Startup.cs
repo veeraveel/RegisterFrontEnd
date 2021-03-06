@@ -91,8 +91,8 @@ namespace RegistrationModule_WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Login",
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
             });
         }
     }
