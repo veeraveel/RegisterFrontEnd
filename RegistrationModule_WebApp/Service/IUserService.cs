@@ -89,7 +89,7 @@ namespace RegistrationModule_WebApp.Service
             };
         }
 
-        public async Task<UserManagerResponse> LogiUserAsync(LoginViewModel model)
+        public async Task<UserManagerResponse> LoginUserAsync(LoginViewModel model)
         {
             var user = await _userManger.FindByEmailAsync(model.Email);
 
@@ -238,10 +238,10 @@ namespace RegistrationModule_WebApp.Service
             };
         }
 
-        public Task<UserManagerResponse> LoginUserAsync(LoginViewModel model)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<UserManagerResponse> LoginUserAsync(LoginViewModel model)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
 

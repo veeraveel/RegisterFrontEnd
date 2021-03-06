@@ -279,7 +279,7 @@
             <div class="d-flex align-items-start">
 
                 <div class="ml-auto"> <a href="@Url.Action("Forgetpass", "Forget")">FogetPassword?</a><br /> </div>
-            </div> <button id="button" type="submit" class="btn btn-block text-center my-3">Log in</button>
+            </div> <a style="color:white" class="btn btn-block text-center my-3" id="button" type="submit">Log in</a>
             <div class="text-center pt-3 text-muted">Not a member?<a href="@Url.Action("Register", "Register")">Create Account</a></div>
         </form>
     </div>
@@ -298,7 +298,7 @@
             e.preventDefault()
             var email = $('#email').val()
             var password = $('#password').val()
-          
+
             if (email == '') {
                 $(".reqire").show();
                 setTimeout(function () { $(".reqire").hide(); }, 3000);
@@ -320,13 +320,15 @@
                 data: data,
                 success: function () {
                     alert("Employee Login Successfully")
+
+                    window.location.href = '@Url.Action("Webpage", "Webpage")'
+ 
                 },
 
                 error: (function (err) {
-                    console.log(err,"yhgyhuhj")
                   alert ("Invalid Email or Password")
-                    
-                  
+
+
                 })
             })
         })
