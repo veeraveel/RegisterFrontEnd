@@ -1,65 +1,4 @@
-﻿@*<!DOCTYPE html>
-<html>
-<body>
-
-    <h2>HTML Forms</h2>
-
-    <form action="">
-
-
-        <label for="lname">Email:</label><br>
-        <input type="email" id="email" name="email" value=""><br><br>
-        <label for="lname">Password:</label><br>
-        <input type="password" id="password" name="password" value=""><br><br>
-        <div id="msg">Invalid Email or Password </div>
-
-        <input type="submit" id="button" value="SignIn">
-      
-        <a href="@Url.Action("Forgetpass", "Forget")">FogetPassword?</a><br />
-        <a href="@Url.Action("Register", "Register")">Create Account</a>
-    </form>
-
-
-
-
-    <script src=""></script>
-    <script>
-        $(document).ready(function () {
-        })
-
-        $("#msg").hide()
-
-        $("#button").click(function (e) {
-            e.preventDefault()
-            var email = $('#email').val()
-            var password = $('#password').val()
-
-
-            var data = {
-                email: email,
-                password: password
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: "/Login/LoginEmp",
-                data: data,
-                success: function () {
-                    alert("Employee Login Successfully")
-                },
-                error: (function (err) {
-                    setTimeout(function () { $("#msg").show(); }, 3000);
-                })
-            })
-        })
-      
-    </script>
-
-
-
-
-</body>
-</html>*@
+﻿
 
 
 <html>
@@ -254,7 +193,11 @@
             margin-top: 10px;
             color: #E92B2B;
         }
+
+       
     </style>
+
+    
 
 
 
@@ -284,6 +227,12 @@
         </form>
     </div>
 
+
+    <section class="header">
+        <div class="top">
+           <p class="topic">  Hi This Is My <span style="color:red">WebSite</span></p>
+        </div>
+    </section>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
